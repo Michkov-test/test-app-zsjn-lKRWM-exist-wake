@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component-fzyr
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component-fzyr
+    app.kubernetes.io/part-of: test-app-zsjn
+  name: test-component-fzyr
+  namespace: build-e2e-hacbs-hpvg
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component-fzyr
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component-fzyr
+    spec:
+      containers:
+      - image: quay.io/mkovarik/test-images:a44428c914454ff996d301f84d43bf14
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
